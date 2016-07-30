@@ -1,0 +1,22 @@
+{
+  "name": "third-world-messenger",
+  "version": "1.0.0",
+  "description": "A Messaging application for Third World countries (e.g.: France)",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Third",
+    "World",
+    "Messenger",
+    "France"
+  ],
+  "author": "ThirdWorldCorp",
+  "license": "MIT",
+  "dependencies": {
+    "nedb": "^1.8.0",
+    "restify": "^4.1.1"
+  }
+}
