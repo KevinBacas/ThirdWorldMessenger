@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node ./src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [
     "Third",
@@ -18,5 +18,8 @@
   "dependencies": {
     "nedb": "^1.8.0",
     "restify": "^4.1.1"
+  },
+  "devDependencies": {
+    "jest-cli": "^14.0.1"
   }
 }
