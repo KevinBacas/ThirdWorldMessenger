@@ -4,7 +4,8 @@
   "description": "A Messaging application for Third World countries (e.g.: France)",
   "main": "src/index.js",
   "scripts": {
-    "start": "node ./src/index.js",
+    "start": "pm2 start ./src/index.js",
+    "dev": "pm2 start ./src/index.js --watch",
     "test": "jest"
   },
   "keywords": [
@@ -16,8 +17,10 @@
   "author": "ThirdWorldCorp",
   "license": "MIT",
   "dependencies": {
-    "nedb": "^1.8.0",
-    "restify": "^4.1.1"
+    "pm2": "^1.1.3",
+    "restify": "^4.1.1",
+    "restify-logger": "^2.0.1",
+    "rethinkdbdash": "^2.3.19"
   },
   "devDependencies": {
     "jest-cli": "^14.0.1"
