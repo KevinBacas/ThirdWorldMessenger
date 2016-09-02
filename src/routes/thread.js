@@ -66,7 +66,7 @@ module.exports = (server) => {
   });
 
   server.post('/thread', (req, res, next) => {
-    const authorization = req.header('Authorization');
+    const authorization = req.header('Authorization', '');
     const threadName = req.params.name;
     if (!authorization) {
       return next(new UnauthorizedError('You must login in order to create a thread.'));
@@ -74,7 +74,35 @@ module.exports = (server) => {
     if (!threadName) {
       return next(new InvalidArgumentError('You must provide a thread name.'));
     }
-    res.send({ created: 'OK' });
-    return next();
+    r.table('User')
+      .get(authorization)
+      .run()
+      .then(u => {
+        if (u) {
+          r.table('Thread')
+            .insert({
+              name: threadName,
+            })
+            .run()
+            .then(changes => {
+              const Thread_ID = changes.generated_keys[0];
+              r.table('ThreadUserXREF')
+                .insert({
+                  FK_Thread_ID: Thread_ID,
+                  FK_User_ID: authorization,
+                })
+                .run()
+                .then(() => {
+                  res.send({ id: Thread_ID });
+                  return next();
+                })
+                .error(err => next(err));
+            })
+            .error(err => next(err));
+        } else {
+          return next(new UnauthorizedError('You must provide a valid token.'));
+        }
+      })
+      .error(err => next(err));
   });
 };
