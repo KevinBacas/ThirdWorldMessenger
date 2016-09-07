@@ -85,10 +85,10 @@ module.exports = (server) => {
             })
             .run()
             .then(changes => {
-              const Thread_ID = changes.generated_keys[0];
+              const threadID = changes.generated_keys[0];
               r.table('ThreadUserXREF')
                 .insert({
-                  FK_Thread_ID: Thread_ID,
+                  FK_Thread_ID: threadID,
                   FK_User_ID: authorization,
                 })
                 .run()
