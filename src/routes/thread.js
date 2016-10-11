@@ -93,7 +93,7 @@ module.exports = (server) => {
                 })
                 .run()
                 .then(() => {
-                  res.send({ id: Thread_ID });
+                  res.send({ id: threadID });
                   return next();
                 })
                 .error(err => next(err));
