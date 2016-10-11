@@ -105,4 +105,42 @@ module.exports = (server) => {
       })
       .error(err => next(err));
   });
+
+  server.post('/thread/:threadID/message', (req, res, next) => {
+    const authorization = req.header('Authorization', '');
+    const threadID = req.params.threadID;
+    const content = req.params.content;
+    if (!authorization) {
+      return next(new UnauthorizedError('You must login in order to send a message.'));
+    }
+    if (!content) {
+      return next(new UnauthorizedError('You must provide a message.'));
+    }
+    r.table('ThreadUserXREF')
+      .filter({
+        FK_Thread_ID: threadID,
+        FK_User_ID: authorization,
+      })
+      .count()
+      .run()
+      .then(c => {
+        if (c) {
+          r.table('Message')
+            .insert({
+              content,
+              FK_User_ID: authorization,
+              FK_Thread_ID: threadID,
+            })
+            .run()
+            .then(() => {
+              res.send({ status: 'OK' });
+              return next();
+            })
+            .error(err => next(err));
+        } else {
+          return next(new UnauthorizedError('You do not have access to this thread.'));
+        }
+      })
+      .error(err => next(err));
+  });
 };
